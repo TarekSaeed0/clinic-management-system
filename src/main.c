@@ -8,9 +8,13 @@
 
 int main(void) {
 	struct doctors doctors;
-	doctors_read(&doctors, DOCTORS_FILE_NAME);
+	if (doctors_read(&doctors, DOCTORS_FILE_NAME) == doctors_read_failure) {
+		printf("Failed to read doctors from file.\n");
+	}
 	struct patients patients;
-	patients_read(&patients, PATIENTS_FILE_NAME);
+	if (patients_read(&patients, PATIENTS_FILE_NAME) == patients_read_failure) {
+		printf("Failed to read patients from file.\n");
+	}
 
 	size_t page = 0;
 
@@ -29,9 +33,8 @@ int main(void) {
 						char *password = text_field("Password", NULL, '*');
 						char *name = text_field("Name", NULL, 0);
 
-						enum patients_sign_up_result result =
-							patients_sign_up(&patients, username, password, name);
-						switch (result) {
+						enum patients_sign_up_status status = patients_sign_up(&patients, username, password, name);
+						switch (status) {
 							case patients_sign_up_success: {
 								printf("Successfully signed up.\n");
 							} break;
@@ -52,9 +55,8 @@ int main(void) {
 						char *username = text_field("Username", NULL, 0);
 						char *password = text_field("Password", NULL, '*');
 
-						enum patients_sign_in_result result =
-							patients_sign_in(&patients, username, password);
-						switch (result) {
+						enum patients_sign_in_status status = patients_sign_in(&patients, username, password);
+						switch (status) {
 							case patients_sign_in_success: {
 								printf("Successfully signed in.\n");
 								page = 1;
@@ -71,7 +73,9 @@ int main(void) {
 						free(username);
 					} break;
 					case 2: {
-						patients_write(&patients, PATIENTS_FILE_NAME);
+						if (patients_write(&patients, PATIENTS_FILE_NAME) == patients_write_failure) {
+							printf("Failed to write patients to file.\n");
+						}
 
 						return EXIT_SUCCESS;
 					} break;
@@ -96,7 +100,6 @@ int main(void) {
 						}
 					} break;
 					case 1: {
-
 						char *speciality = text_field("Speciality", NULL, 0);
 
 						struct doctors results = doctors_search(&doctors, speciality);
