@@ -11,7 +11,8 @@ set(CMAKE_EXPORT_COMPILE_COMMANDS ON)
 set(CMAKE_C_STANDARD 99)
 set(CMAKE_C_STANDARD_REQUIRED ON)
 
-add_executable(clinic_management_system src/main.c)
+add_executable(clinic_management_system src/ui.c src/patients.c src/doctors.c src/main.c)
+target_include_directories(clinic_management_system PRIVATE include)
 target_compile_options(
 	clinic_management_system
 	PRIVATE -Werror
