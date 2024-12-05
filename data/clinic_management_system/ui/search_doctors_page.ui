@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- Created with Cambalache 0.94.0 --><interface>
+	<requires lib="gtk" version="4.11"></requires>
+	<template class="SearchDoctorsPage" parent="GtkBox">
+		<property name="orientation">vertical</property>
+		<child>
+			<object class="GtkActionBar">
+				<child>
+					<object class="GtkBox">
+						<property name="spacing">20</property>
+						<property name="hexpand">True</property>
+						<child>
+							<object class="GtkButton" id="back_button">
+								<property name="icon-name">go-previous-symbolic</property>
+								<signal handler="search_doctors_back_button_callback" name="clicked"></signal>
+							</object>
+						</child>
+						<child>
+							<object class="GtkLabel">
+								<property name="justify">fill</property>
+								<property name="label">Search Doctors</property>
+								<attributes>
+									<attribute name="weight" value="bold"></attribute>
+									<attribute name="scale" value="1.5"></attribute>
+								</attributes>
+							</object>
+						</child>
+						<child>
+							<object class="GtkEntry" id="search_entry">
+								<property name="halign">end</property>
+								<property name="hexpand">True</property>
+								<property name="placeholder-text">Search...</property>
+								<property name="primary-icon-name">edit-find-symbolic</property>
+								<signal handler="search_doctors_search_entry_callback" name="changed"></signal>
+							</object>
+						</child>
+					</object>
+				</child>
+			</object>
+		</child>
+		<child>
+			<object class="GtkSeparator"></object>
+		</child>
+		<child>
+			<object class="GtkScrolledWindow">
+				<property name="vexpand">True</property>
+				<child>
+					<object class="DoctorsList" id="doctors_list"></object>
+				</child>
+			</object>
+		</child>
+	</template>
+</interface>

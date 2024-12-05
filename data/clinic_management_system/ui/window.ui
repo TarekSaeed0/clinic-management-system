@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- Created with Cambalache 0.94.0 --><interface>
+	<requires lib="gtk" version="4.11"></requires>
+	<object class="GtkWindow" id="window">
+		<property name="default-height">500</property>
+		<property name="default-width">700</property>
+		<property name="title">Clinic Management System</property>
+		<property name="icon-name">com.github.TarekSaeed0.clinic_management_system</property>
+		<child>
+			<object class="GtkStack" id="stack">
+				<property name="transition-type">GTK_STACK_TRANSITION_TYPE_SLIDE_LEFT_RIGHT</property>
+				<property name="transition-duration">500</property>
+				<child>
+					<object class="GtkStackPage" id="start-page">
+						<property name="child">
+							<object class="StartPage"></object>
+						</property>
+						<property name="name">start-page</property>
+					</object>
+				</child>
+				<child>
+					<object class="GtkStackPage" id="sign-up-page">
+						<property name="child">
+							<object class="SignUpPage"></object>
+						</property>
+						<property name="name">sign-up-page</property>
+					</object>
+				</child>
+				<child>
+					<object class="GtkStackPage" id="sign-in-page">
+						<property name="child">
+							<object class="SignInPage"></object>
+						</property>
+						<property name="name">sign-in-page</property>
+					</object>
+				</child>
+				<child>
+					<object class="GtkStackPage" id="main-page">
+						<property name="child">
+							<object class="MainPage"></object>
+						</property>
+						<property name="name">main-page</property>
+					</object>
+				</child>
+				<child>
+					<object class="GtkStackPage" id="list-doctors-page">
+						<property name="child">
+							<object class="ListDoctorsPage"></object>
+						</property>
+						<property name="name">list-doctors-page</property>
+					</object>
+				</child>
+				<child>
+					<object class="GtkStackPage" id="search-doctors-page">
+						<property name="child">
+							<object class="SearchDoctorsPage"></object>
+						</property>
+						<property name="name">search-doctors-page</property>
+					</object>
+				</child>
+			</object>
+		</child>
+	</object>
+</interface>

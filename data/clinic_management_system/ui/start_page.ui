@@ -1,0 +1,80 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- Created with Cambalache 0.94.0 --><interface>
+	<requires lib="gtk" version="4.11"></requires>
+	<template class="StartPage" parent="GtkBox">
+		<property name="halign">center</property>
+		<property name="orientation">vertical</property>
+		<property name="spacing">10</property>
+		<property name="valign">center</property>
+		<child>
+			<object class="GtkFrame">
+				<property name="halign">center</property>
+				<property name="margin-top">20</property>
+				<property name="valign">center</property>
+				<child>
+					<object class="GtkBox">
+						<property name="orientation">vertical</property>
+						<property name="margin-bottom">25</property>
+						<property name="margin-end">25</property>
+						<property name="margin-start">25</property>
+						<property name="margin-top">5</property>
+						<child>
+							<object class="GtkImage" id="logo">
+								<property name="resource">/com/github/TarekSaeed0/clinic_management_system/images/logo.png</property>
+								<property name="pixel-size">150</property>
+							</object>
+						</child>
+						<child>
+							<object class="GtkLabel">
+								<property name="justify">center</property>
+								<property name="label">Clinic Management System</property>
+								<attributes>
+									<attribute name="weight" value="bold"></attribute>
+									<attribute name="scale" value="1.75"></attribute>
+								</attributes>
+							</object>
+						</child>
+					</object>
+				</child>
+			</object>
+		</child>
+		<child>
+			<object class="GtkFrame">
+				<property name="halign">center</property>
+				<property name="margin-bottom">20</property>
+				<property name="margin-top">20</property>
+				<property name="valign">center</property>
+				<child>
+					<object class="GtkBox">
+						<property name="halign">center</property>
+						<property name="margin-bottom">15</property>
+						<property name="margin-end">30</property>
+						<property name="margin-start">30</property>
+						<property name="margin-top">15</property>
+						<property name="orientation">vertical</property>
+						<property name="spacing">10</property>
+						<property name="valign">center</property>
+						<child>
+							<object class="GtkButton" id="sign_up_button">
+								<property name="label">Sign Up</property>
+								<signal handler="sign_up_button_callback" name="clicked"></signal>
+							</object>
+						</child>
+						<child>
+							<object class="GtkButton" id="sign_in_button">
+								<property name="label">Sign In</property>
+								<signal handler="sign_in_button_callback" name="clicked"></signal>
+							</object>
+						</child>
+						<child>
+							<object class="GtkButton" id="quit_button">
+								<property name="label">Quit</property>
+								<signal handler="quit_button_callback" name="clicked"></signal>
+							</object>
+						</child>
+					</object>
+				</child>
+			</object>
+		</child>
+	</template>
+</interface>

@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<gresources>
+	<gresource prefix="/com/github/TarekSaeed0/clinic_management_system">
+		<file preprocess="xml-stripblanks">ui/window.ui</file>
+		<file preprocess="xml-stripblanks">ui/start_page.ui</file>
+		<file preprocess="xml-stripblanks">ui/sign_up_page.ui</file>
+		<file preprocess="xml-stripblanks">ui/sign_in_page.ui</file>
+		<file preprocess="xml-stripblanks">ui/main_page.ui</file>
+		<file preprocess="xml-stripblanks">ui/doctors_list_item.ui</file>
+		<file preprocess="xml-stripblanks">ui/doctors_list.ui</file>
+		<file preprocess="xml-stripblanks">ui/list_doctors_page.ui</file>
+		<file preprocess="xml-stripblanks">ui/search_doctors_page.ui</file>
+		<file>style.css</file>
+		<file>icons/hicolor/48x48/apps/com.github.TarekSaeed0.clinic_management_system.png</file>
+		<file>icons/hicolor/scalable/apps/com.github.TarekSaeed0.clinic_management_system.svg</file>
+		<file>images/logo.png</file>
+	</gresource>
+</gresources>

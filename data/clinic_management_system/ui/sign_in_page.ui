@@ -1,0 +1,136 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- Created with Cambalache 0.94.0 --><interface>
+	<requires lib="gtk" version="4.11"></requires>
+	<template class="SignInPage" parent="GtkBox">
+		<property name="orientation">vertical</property>
+		<child>
+			<object class="GtkActionBar">
+				<child>
+					<object class="GtkBox">
+						<property name="spacing">20</property>
+						<child>
+							<object class="GtkButton" id="back_button">
+								<property name="icon-name">go-previous-symbolic</property>
+								<signal handler="sign_in_back_button_callback" name="clicked"></signal>
+							</object>
+						</child>
+						<child>
+							<object class="GtkLabel">
+								<property name="justify">fill</property>
+								<property name="label">Sign In</property>
+								<attributes>
+									<attribute name="weight" value="bold"></attribute>
+									<attribute name="scale" value="1.5"></attribute>
+								</attributes>
+							</object>
+						</child>
+					</object>
+				</child>
+			</object>
+		</child>
+		<child>
+			<object class="GtkSeparator"></object>
+		</child>
+		<child>
+			<object class="GtkBox">
+				<property name="halign">center</property>
+				<property name="valign">center</property>
+				<property name="vexpand">True</property>
+				<child>
+					<object class="GtkFrame">
+						<property name="halign">center</property>
+						<property name="margin-bottom">20</property>
+						<property name="margin-top">20</property>
+						<property name="valign">center</property>
+						<child>
+							<object class="GtkBox">
+								<property name="focusable">True</property>
+								<property name="halign">center</property>
+								<property name="margin-bottom">15</property>
+								<property name="margin-end">30</property>
+								<property name="margin-start">30</property>
+								<property name="margin-top">15</property>
+								<property name="orientation">vertical</property>
+								<property name="spacing">15</property>
+								<property name="valign">center</property>
+								<child>
+									<object class="GtkGrid">
+										<property name="column-spacing">20</property>
+										<property name="row-spacing">10</property>
+										<child>
+											<object class="GtkEntry" id="username_entry">
+												<layout>
+													<property name="column">1</property>
+													<property name="row">0</property>
+												</layout>
+											</object>
+										</child>
+										<child>
+											<object class="GtkPasswordEntry" id="password_entry">
+												<property name="show-peek-icon">True</property>
+												<layout>
+													<property name="column">1</property>
+													<property name="row">1</property>
+												</layout>
+											</object>
+										</child>
+										<child>
+											<object class="GtkLabel">
+												<property name="halign">start</property>
+												<property name="label">Username</property>
+												<layout>
+													<property name="column">0</property>
+													<property name="row">0</property>
+												</layout>
+											</object>
+										</child>
+										<child>
+											<object class="GtkLabel">
+												<property name="halign">start</property>
+												<property name="label">Password</property>
+												<layout>
+													<property name="column">0</property>
+													<property name="row">1</property>
+												</layout>
+											</object>
+										</child>
+									</object>
+								</child>
+								<child>
+									<object class="GtkLabel" id="success_label">
+										<property name="label">Signed in successfully</property>
+										<property name="visible">False</property>
+										<property name="wrap">True</property>
+										<property name="max-width-chars">0</property>
+										<property name="css-classes">success</property>
+										<attributes>
+											<attribute name="weight" value="bold"></attribute>
+										</attributes>
+									</object>
+								</child>
+								<child>
+									<object class="GtkLabel" id="error_label">
+										<property name="visible">False</property>
+										<property name="wrap">True</property>
+										<property name="max-width-chars">0</property>
+										<property name="css-classes">error</property>
+										<attributes>
+											<attribute name="weight" value="bold"></attribute>
+										</attributes>
+									</object>
+								</child>
+								<child>
+									<object class="GtkButton" id="confirm_button">
+										<property name="halign">center</property>
+										<property name="label">Confirm</property>
+										<signal handler="sign_in_confirm_button_callback" name="clicked"></signal>
+									</object>
+								</child>
+							</object>
+						</child>
+					</object>
+				</child>
+			</object>
+		</child>
+	</template>
+</interface>

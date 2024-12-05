@@ -1,0 +1,48 @@
+/* stack {
+  background: linear-gradient(to top, #94e2d5, #11111b),
+    linear-gradient(to right, #cba6f7, #11111b);
+  background-blend-mode: screen;
+} */
+stack {
+  background: linear-gradient(
+      200deg,
+      rgba(24, 24, 37, 1) 0%,
+      rgba(25, 25, 38, 1) 23%,
+      rgba(33, 31, 47, 1) 38%,
+      rgba(44, 40, 61, 1) 53%,
+      rgba(60, 53, 80, 1) 69%,
+      rgba(96, 81, 122, 1) 82%,
+      rgba(125, 104, 156, 1) 92%,
+      rgba(154, 127, 190, 1) 100%
+    ),
+    linear-gradient(
+      160deg,
+      rgba(24, 24, 37, 1) 0%,
+      rgba(29, 32, 44, 1) 26%,
+      rgba(40, 50, 60, 1) 45%,
+      rgba(48, 64, 72, 1) 60%,
+      rgba(68, 95, 99, 1) 74%,
+      rgba(87, 126, 126, 1) 82%,
+      rgba(115, 173, 167, 1) 92%,
+      rgba(139, 212, 201, 1) 100%
+    );
+  background-blend-mode: screen;
+}
+
+stack button {
+  transition-duration: 0.6s;
+}
+stack button:hover {
+  background-color: #94e2d5;
+  color: #11111b;
+}
+
+frame {
+  background-color: #1e1e2e;
+  border-radius: 10px;
+}
+
+.error {
+  color: #f38ba8;
+  font-size: 10pt;
+}

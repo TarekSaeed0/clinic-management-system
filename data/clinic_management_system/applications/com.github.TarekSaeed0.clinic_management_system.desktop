@@ -1,0 +1,11 @@
+[Desktop Entry]
+Type=Application
+Version=1.0
+Name=Clinic Management System
+GenericName=Clinic Management System
+Comment=Clinic Management System GTK Project
+Icon=com.github.TarekSaeed0.clinic_management_system
+Exec=clinic_management_system
+Categories=GTK
+StartupNotify=true
+
