@@ -1,6 +1,7 @@
 #include <clinic_management_system/patients.h>
 
 #include <assert.h>
+#include <ctype.h>
 #include <stdio.h>
 #include <string.h>
 
@@ -70,6 +71,19 @@ enum patients_sign_up_status patients_sign_up(
 	const char *name
 ) {
 	assert(patients != NULL && username != NULL && password != NULL && name != NULL);
+
+	bool is_valid = username[0] != '\0';
+	for (size_t i = 0; username[i] != '\0'; i++) {
+		if (!isalnum((unsigned char)username[i]) && username[i] != '_' && username[i] != '-' &&
+			username[i] != '.') {
+			is_valid = false;
+			break;
+		}
+	}
+
+	if (!is_valid) {
+		return patients_sign_up_failure_username_is_invalid;
+	}
 
 	size_t i = 0;
 	while (i < patients->count) {

@@ -53,7 +53,7 @@ struct doctors {
  */
 enum doctors_read_status {
 	doctors_read_success, /**< Reading doctors was successful. */
-	doctors_read_failure  /**< Reading doctors failed. */
+	doctors_read_failure, /**< Reading doctors failed. */
 };
 
 /**

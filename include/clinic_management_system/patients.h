@@ -86,9 +86,10 @@ enum patients_write_status patients_write(const struct patients *patients, const
  * @brief Status of signing up a new patient.
  */
 enum patients_sign_up_status {
-	patients_sign_up_success,					   /**< Sign up was successful. */
-	patients_sign_up_failure_user_already_exists,  /**< User already exists. */
-	patients_sign_up_failure_maximum_count_reached /**< Maximum patients count reached. */
+	patients_sign_up_success,						/**< Sign up was successful. */
+	patients_sign_up_failure_username_is_invalid,	/**< Username is invalid. */
+	patients_sign_up_failure_user_already_exists,	/**< User already exists. */
+	patients_sign_up_failure_maximum_count_reached, /**< Maximum patients count reached. */
 };
 
 /**
@@ -113,9 +114,9 @@ enum patients_sign_up_status patients_sign_up(
  * @brief Status of signing in a patient.
  */
 enum patients_sign_in_status {
-	patients_sign_in_success,					   /**< Sign in was successful. */
-	patients_sign_in_failure_user_does_not_exist,  /**< User does not exist. */
-	patients_sign_in_failure_password_is_incorrect /**< Password is incorrect. */
+	patients_sign_in_success,						/**< Sign in was successful. */
+	patients_sign_in_failure_user_does_not_exist,	/**< User does not exist. */
+	patients_sign_in_failure_password_is_incorrect, /**< Password is incorrect. */
 };
 
 /**

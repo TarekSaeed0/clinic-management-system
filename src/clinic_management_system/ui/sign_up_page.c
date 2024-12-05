@@ -76,6 +76,14 @@ G_MODULE_EXPORT void sign_up_confirm_button_callback(GtkWidget *widget, gpointer
 
 			g_timeout_add(1500, (GSourceFunc)sign_up_success_callback, page);
 		} break;
+		case patients_sign_up_failure_username_is_invalid: {
+			gtk_widget_set_visible(GTK_WIDGET(page->error_label), true);
+			gtk_label_set_text(
+				GTK_LABEL(page->error_label),
+				"Username is invalid, username must be a non-empty string containing only letters, "
+				"digits, underscores, dashes and dots."
+			);
+		} break;
 		case patients_sign_up_failure_user_already_exists: {
 			gtk_widget_set_visible(GTK_WIDGET(page->error_label), true);
 			gtk_label_set_text(
