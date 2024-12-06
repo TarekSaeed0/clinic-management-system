@@ -6,7 +6,7 @@
 
 struct _SearchDoctorsPage {
 	GtkBox parent;
-	GtkEntry *search_entry;
+	GtkSearchEntry *search_entry;
 	DoctorsList *doctors_list;
 };
 
