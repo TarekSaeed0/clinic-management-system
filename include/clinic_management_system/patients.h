@@ -29,12 +29,14 @@ enum checkAccount logIn(
 
 enum check_Account {
 	existed_username = 1,
-	existed_name = 2,
 	Passwords_didnot_match = 3,
 	max_Patients = 4,
 	invalid_password = 5,
-	signed_up_successfuly = 6,
-	invalid_username = 7
+	invalid_name = 6,
+	invalid_username = 7,
+	short_name = 8,
+	short_username = 9,
+	signed_up_successfuly = 10
 };
 
 enum check_Account sign_up(

@@ -81,24 +81,45 @@ enum check_Account sign_up(
 	const char *taken_confirm_password
 ) {
 
-	for (int i = 0; i < patients->numPatients; i++) {
+	if (strlen(taken_username) < 4) {
+		return short_username;
+	}
 
-		if (strcmp(taken_name, patients->Patients[i].name) == 0) {
-			return existed_name;
+	for (int i = 0; i < (int)strlen(taken_username); i++) {
+		if ((taken_username[i] == ' ' || taken_username[i] == '\t' || taken_username[i] == '\n')) {
+			return invalid_username;
 		}
+	}
+
+	for (int i = 0; i < patients->numPatients; i++) {
 		if (strcmp(taken_username, patients->Patients[i].username) == 0) {
 			return existed_username;
 		}
-		if (strcmp(taken_password, taken_confirm_password) != 0) {
-			return Passwords_didnot_match;
+	}
+
+	if (strlen(taken_name) < 4) {
+		return short_name;
+	}
+
+	int count = 0;
+	for (int i = 0; i < (int)strlen(taken_name); i++) {
+		if (((taken_name[i] >= 'A' && taken_name[i] <= 'Z') ||
+			 (taken_name[i] >= 'a' && taken_name[i] <= 'z'))) {
+			count++;
+		} else if ((taken_name[i] != ' ' && taken_name[i] != '\t' && taken_name[i] != '\n')) {
+			return invalid_name;
 		}
 	}
+	if (count <= 4) {
+		return invalid_name;
+	}
+
 	if (strlen(taken_password) < 4) {
 		return invalid_password;
 	}
 
-	if (strlen(taken_username) < 4) {
-		return invalid_username;
+	if (strcmp(taken_password, taken_confirm_password) != 0) {
+		return Passwords_didnot_match;
 	}
 
 	if (patients->numPatients >= 10) {

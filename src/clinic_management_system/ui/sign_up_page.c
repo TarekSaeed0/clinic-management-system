@@ -82,25 +82,18 @@ G_MODULE_EXPORT void sign_up_confirm_button_callback(GtkWidget *widget, gpointer
 
 			g_timeout_add(1500, (GSourceFunc)sign_up_success_callback, page);
 		} break;
+		case short_username: {
+			gtk_widget_set_visible(GTK_WIDGET(page->error_label), true);
+			gtk_label_set_text(
+				GTK_LABEL(page->error_label),
+				"Username is too short, username must be at least four characters long."
+			);
+		} break;
 		case invalid_username: {
 			gtk_widget_set_visible(GTK_WIDGET(page->error_label), true);
 			gtk_label_set_text(
 				GTK_LABEL(page->error_label),
-				"Username is invalid, username must be at least four characters long."
-			);
-		} break;
-		case invalid_password: {
-			gtk_widget_set_visible(GTK_WIDGET(page->error_label), true);
-			gtk_label_set_text(
-				GTK_LABEL(page->error_label),
-				"Password is invalid, password must be at least four characters long."
-			);
-		} break;
-		case existed_name: {
-			gtk_widget_set_visible(GTK_WIDGET(page->error_label), true);
-			gtk_label_set_text(
-				GTK_LABEL(page->error_label),
-				"There already exists a patient with that name."
+				"Username is invalid, username must not contain whitespace."
 			);
 		} break;
 		case existed_username: {
@@ -108,6 +101,28 @@ G_MODULE_EXPORT void sign_up_confirm_button_callback(GtkWidget *widget, gpointer
 			gtk_label_set_text(
 				GTK_LABEL(page->error_label),
 				"There already exists a patient with that username."
+			);
+		} break;
+		case short_name: {
+			gtk_widget_set_visible(GTK_WIDGET(page->error_label), true);
+			gtk_label_set_text(
+				GTK_LABEL(page->error_label),
+				"Name is too short, name must be at least four characters long."
+			);
+		} break;
+		case invalid_name: {
+			gtk_widget_set_visible(GTK_WIDGET(page->error_label), true);
+			gtk_label_set_text(
+				GTK_LABEL(page->error_label),
+				"Name is invalid, name must only contain letters and spaces and must contain at "
+				"least four letters"
+			);
+		} break;
+		case invalid_password: {
+			gtk_widget_set_visible(GTK_WIDGET(page->error_label), true);
+			gtk_label_set_text(
+				GTK_LABEL(page->error_label),
+				"Password is invalid, password must be at least four characters long."
 			);
 		} break;
 		case Passwords_didnot_match: {

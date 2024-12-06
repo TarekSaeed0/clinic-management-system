@@ -36,6 +36,14 @@ static void search_doctors_page_class_init(SearchDoctorsPageClass *class) {
 
 static void search_doctors_page_init(SearchDoctorsPage *self) {
 	gtk_widget_init_template(GTK_WIDGET(self));
+
+	ClinicManagementSystemApplication *application =
+		CLINIC_MANAGEMENT_SYSTEM_APPLICATION(g_application_get_default());
+
+	struct Doctor *doctors = clinic_management_system_application_get_doctors(application);
+
+	struct TempStruct1 results = searchBySpeciality("", doctors);
+	doctors_list_set_doctors(self->doctors_list, results.arrayToReturn, (size_t)results.count);
 }
 
 G_MODULE_EXPORT void search_doctors_search_entry_callback(GtkWidget *widget, gpointer data) {
