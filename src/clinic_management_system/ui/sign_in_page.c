@@ -66,6 +66,10 @@ static gboolean sign_in_failure_user_does_not_exit_callback(gpointer data) {
 	gtk_editable_delete_text(GTK_EDITABLE(page->username_entry), 0, -1);
 	gtk_editable_delete_text(GTK_EDITABLE(page->password_entry), 0, -1);
 
+	// HACK: rehide password entry
+	gtk_password_entry_set_show_peek_icon(page->password_entry, false);
+	gtk_password_entry_set_show_peek_icon(page->password_entry, true);
+
 	// hide any success or error messages
 	gtk_widget_set_visible(GTK_WIDGET(page->success_label), false);
 	gtk_widget_set_visible(GTK_WIDGET(page->error_label), false);
@@ -127,6 +131,10 @@ G_MODULE_EXPORT void sign_in_back_button_callback(GtkWidget *widget, gpointer da
 	// clear the sign in entries
 	gtk_editable_delete_text(GTK_EDITABLE(page->username_entry), 0, -1);
 	gtk_editable_delete_text(GTK_EDITABLE(page->password_entry), 0, -1);
+
+	// HACK: rehide password entry
+	gtk_password_entry_set_show_peek_icon(page->password_entry, false);
+	gtk_password_entry_set_show_peek_icon(page->password_entry, true);
 
 	// hide any success or error messages
 	gtk_widget_set_visible(GTK_WIDGET(page->success_label), false);

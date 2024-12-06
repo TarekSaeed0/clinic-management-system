@@ -1,6 +1,7 @@
 #include <clinic_management_system/ui/sign_up_page.h>
 
 #include <clinic_management_system/application.h>
+#include <gtk/gtk.h>
 
 struct _SignUpPage {
 	GtkBox parent;
@@ -53,6 +54,12 @@ static gboolean sign_up_success_callback(gpointer data) {
 	gtk_editable_delete_text(GTK_EDITABLE(page->name_entry), 0, -1);
 	gtk_editable_delete_text(GTK_EDITABLE(page->password_entry), 0, -1);
 	gtk_editable_delete_text(GTK_EDITABLE(page->confirm_password_entry), 0, -1);
+
+	// HACK: rehide password entry
+	gtk_password_entry_set_show_peek_icon(page->password_entry, false);
+	gtk_password_entry_set_show_peek_icon(page->password_entry, true);
+	gtk_password_entry_set_show_peek_icon(page->confirm_password_entry, false);
+	gtk_password_entry_set_show_peek_icon(page->confirm_password_entry, true);
 
 	// hide any success or error messages
 	gtk_widget_set_visible(GTK_WIDGET(page->success_label), false);
@@ -164,6 +171,12 @@ G_MODULE_EXPORT void sign_up_back_button_callback(GtkWidget *widget, gpointer da
 	gtk_editable_delete_text(GTK_EDITABLE(page->name_entry), 0, -1);
 	gtk_editable_delete_text(GTK_EDITABLE(page->password_entry), 0, -1);
 	gtk_editable_delete_text(GTK_EDITABLE(page->confirm_password_entry), 0, -1);
+
+	// HACK: rehide password entry
+	gtk_password_entry_set_show_peek_icon(page->password_entry, false);
+	gtk_password_entry_set_show_peek_icon(page->password_entry, true);
+	gtk_password_entry_set_show_peek_icon(page->confirm_password_entry, false);
+	gtk_password_entry_set_show_peek_icon(page->confirm_password_entry, true);
 
 	// hide any success or error messages
 	gtk_widget_set_visible(GTK_WIDGET(page->success_label), false);
