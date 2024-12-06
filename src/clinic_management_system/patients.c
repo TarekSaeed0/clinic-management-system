@@ -1,140 +1,114 @@
 #include <clinic_management_system/patients.h>
 
-#include <assert.h>
-#include <ctype.h>
+#include <stdbool.h>
 #include <stdio.h>
 #include <string.h>
 
-#define STRINGIFY_(x) #x
-#define STRINGIFY(x) STRINGIFY_ x
+struct PatientsData getPatients(void) {
+	struct PatientsData Patients;
+	FILE *PatientsFile = fopen("patients.csv", "r");
 
-enum patients_read_status patients_read(struct patients *patients, const char *file_name) {
-	assert(patients != NULL && file_name != NULL);
-
-	FILE *file = fopen(file_name, "r");
-	if (file == NULL) {
-		patients->count = 0;
-		return patients_read_success;
+	if (PatientsFile == NULL) {
+		Patients.numPatients = 0;
+		return Patients;
 	}
 
-	patients->count = 0;
-	while (fscanf(
-			   file,
-			   "%" STRINGIFY(MAXIMUM_PATIENT_USERNAME_SIZE
-			   ) "[^,],%" STRINGIFY(MAXIMUM_PATIENT_PASSWORD_SIZE
-			   ) "[^,],%" STRINGIFY(MAXIMUM_PATIENT_NAME_SIZE) "[^,\n] ",
-			   patients->data[patients->count].username,
-			   patients->data[patients->count].password,
-			   patients->data[patients->count].name
-		   ) == 3) {
-		if (++patients->count == MAXIMUM_PATIENTS_COUNT) {
-			break;
-		}
+	int size = 0;
+	char name[100], username[100], password[100];
+
+	while (fscanf(PatientsFile, "%99[^,],%99[^,],%99[^\n] ", name, username, password) != EOF) {
+		strcpy(Patients.Patients[size].name, name);
+		strcpy(Patients.Patients[size].username, username);
+		strcpy(Patients.Patients[size].password, password);
+		size++;
 	}
 
-	(void)fclose(file);
+	Patients.numPatients = size;
 
-	return patients_read_success;
+	fclose(PatientsFile);
+	return Patients;
 }
 
-enum patients_write_status patients_write(const struct patients *patients, const char *file_name) {
-	assert(patients != NULL && file_name != NULL);
-
-	FILE *file = fopen(file_name, "w");
-	if (file == NULL) {
-		return patients_write_failure;
-	}
-
-	for (size_t i = 0; i < patients->count; i++) {
-		if (fprintf(
-				file,
-				"%s,%s,%s\n",
-				patients->data[i].username,
-				patients->data[i].password,
-				patients->data[i].name
-			) < 0) {
-			return patients_write_failure;
-		}
-	}
-
-	if (fclose(file) == EOF) {
-		return patients_write_failure;
-	}
-
-	return patients_write_success;
-}
-
-enum patients_sign_up_status patients_sign_up(
-	struct patients *patients,
-	const char *username,
-	const char *password,
-	const char *name
+enum checkAccount logIn(
+	struct PatientsData Patients,
+	const char takenUsername[],
+	const char takenPassword[]
 ) {
-	assert(patients != NULL && username != NULL && password != NULL && name != NULL);
 
-	bool is_valid = username[0] != '\0';
-	for (size_t i = 0; username[i] != '\0'; i++) {
-		if (!isalnum((unsigned char)username[i]) && username[i] != '_' && username[i] != '-' &&
-			username[i] != '.') {
-			is_valid = false;
-			break;
+	int size = Patients.numPatients;
+
+	bool foundUsername = false;
+
+	for (int i = 0; i < size; i++) {
+		// found username
+		if (strcmp(Patients.Patients[i].username, takenUsername) == 0) {
+			foundUsername = true;
+			// found password
+			if (strcmp(Patients.Patients[i].password, takenPassword) == 0) {
+				return foundAccount;
+			} else {
+				break;
+			}
 		}
 	}
 
-	if (!is_valid) {
-		return patients_sign_up_failure_username_is_invalid;
+	if (foundUsername == false) {
+		return noAccount;
+	} else {
+		return noPassword;
 	}
-
-	size_t i = 0;
-	while (i < patients->count) {
-		if (strcmp(patients->data[i].username, username) == 0) {
-			break;
-		}
-		i++;
-	}
-
-	if (i < patients->count) {
-		return patients_sign_up_failure_user_already_exists;
-	}
-
-	if (patients->count == MAXIMUM_PATIENTS_COUNT) {
-		return patients_sign_up_failure_maximum_count_reached;
-	}
-
-	struct patient patient;
-	assert(strlen(username) < MAXIMUM_PATIENT_USERNAME_SIZE);
-	strcpy(patient.username, username);
-	assert(strlen(password) < MAXIMUM_PATIENT_PASSWORD_SIZE);
-	strcpy(patient.password, password);
-	assert(strlen(name) < MAXIMUM_PATIENT_NAME_SIZE);
-	strcpy(patient.name, name);
-
-	patients->data[patients->count++] = patient;
-	return patients_sign_up_success;
 }
 
-enum patients_sign_in_status patients_sign_in(
-	const struct patients *patients,
-	const char *username,
-	const char *password
+void append_patients(
+	const char *file_name,
+	const char *taken_name,
+	const char *taken_username,
+	const char *taken_password
 ) {
-	assert(patients != NULL && username != NULL && password != NULL);
 
-	size_t i = 0;
-	while (i < patients->count) {
-		if (strcmp(patients->data[i].username, username) == 0) {
-			break;
+	FILE *PatientsFile = fopen(file_name, "a");
+
+	fprintf(PatientsFile, "%s,%s,%s\n", taken_name, taken_username, taken_password);
+
+	fclose(PatientsFile);
+}
+
+enum check_Account sign_up(
+	struct PatientsData *patients,
+	const char *taken_name,
+	const char *taken_username,
+	const char *taken_password,
+	const char *taken_confirm_password
+) {
+
+	for (int i = 0; i < patients->numPatients; i++) {
+
+		if (strcmp(taken_name, patients->Patients[i].name) == 0) {
+			return existed_name;
 		}
-		i++;
+		if (strcmp(taken_username, patients->Patients[i].username) == 0) {
+			return existed_username;
+		}
+		if (strcmp(taken_password, taken_confirm_password) != 0) {
+			return Passwords_didnot_match;
+		}
+	}
+	if (strlen(taken_password) < 4) {
+		return invalid_password;
 	}
 
-	if (i >= patients->count) {
-		return patients_sign_in_failure_user_does_not_exist;
+	if (strlen(taken_username) < 4) {
+		return invalid_username;
 	}
 
-	if (strcmp(patients->data[i].password, password) != 0) {
-		return patients_sign_in_failure_password_is_incorrect;
+	if (patients->numPatients >= 10) {
+		return max_Patients;
+	} else {
+		strcpy(patients->Patients[patients->numPatients].name, taken_name);
+		strcpy(patients->Patients[patients->numPatients].username, taken_username);
+		strcpy(patients->Patients[patients->numPatients].password, taken_password);
+		patients->numPatients++;
+		append_patients("patients.csv", taken_name, taken_username, taken_password);
+		return signed_up_successfuly;
 	}
-
-	return patients_sign_in_success;
 }

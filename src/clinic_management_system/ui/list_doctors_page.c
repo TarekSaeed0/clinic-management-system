@@ -38,9 +38,9 @@ static void list_doctors_page_init(ListDoctorsPage *self) {
 	ClinicManagementSystemApplication *application =
 		CLINIC_MANAGEMENT_SYSTEM_APPLICATION(g_application_get_default());
 
-	struct doctors *doctors = clinic_management_system_application_get_doctors(application);
+	struct Doctor *doctors = clinic_management_system_application_get_doctors(application);
 
-	doctors_list_set_doctors(self->doctors_list, doctors);
+	doctors_list_set_doctors(self->doctors_list, doctors, 10);
 }
 G_MODULE_EXPORT void list_doctors_back_button_callback(GtkWidget *widget, gpointer data) {
 	(void)widget, (void)data;

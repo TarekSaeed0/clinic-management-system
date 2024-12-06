@@ -43,16 +43,16 @@ DoctorsListItem *doctors_list_item_new(void) {
 	return g_object_new(doctors_list_item_get_type(), NULL);
 }
 
-void doctors_list_item_set_data(DoctorsListItem *self, struct doctor doctor) {
+void doctors_list_item_set_data(DoctorsListItem *self, struct Doctor doctor) {
 	gtk_label_set_text(self->name_label, doctor.name);
 	gtk_label_set_text(self->speciality_label, doctor.speciality);
-	gtk_label_set_text(self->clinic_address_label, doctor.clinic_address);
+	gtk_label_set_text(self->clinic_address_label, doctor.address);
 	gtk_label_set_text(self->visita_label, doctor.visita);
 }
 
 typedef struct _Doctor {
 	GObject parent_instance;
-	struct doctor doctor;
+	struct Doctor doctor;
 } Doctor;
 
 typedef struct _DoctorClass {
@@ -74,7 +74,7 @@ static void doctor_class_init(DoctorClass *class) {
 	G_OBJECT_CLASS(class)->finalize = doctor_finalize;
 }
 
-static Doctor *doctor_new(struct doctor doctor) {
+static Doctor *doctor_new(struct Doctor doctor) {
 	Doctor *self = g_object_new(doctor_get_type(), NULL);
 	self->doctor = doctor;
 	return self;
@@ -143,11 +143,15 @@ static void doctors_list_init(DoctorsList *self) {
 	gtk_list_view_set_factory(self->list_view, GTK_LIST_ITEM_FACTORY(factory));
 }
 
-void doctors_list_set_doctors(DoctorsList *self, const struct doctors *doctors) {
+void doctors_list_set_doctors(
+	DoctorsList *self,
+	const struct Doctor doctors[static 10],
+	size_t count
+) {
 	GListStore *list_store = g_list_store_new(DOCTOR_TYPE);
 
-	for (size_t i = 0; i < doctors->count; i++) {
-		g_list_store_append(list_store, doctor_new(doctors->data[i]));
+	for (size_t i = 0; i < count; i++) {
+		g_list_store_append(list_store, doctor_new(doctors[i]));
 	}
 
 	gtk_list_view_set_model(

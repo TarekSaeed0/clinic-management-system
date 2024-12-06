@@ -9,11 +9,12 @@
 #include <clinic_management_system/ui/start_page.h>
 #include <glib.h>
 #include <gtk/gtk.h>
+#include <string.h>
 
 struct _ClinicManagementSystemApplication {
 	GtkApplication parent;
-	struct patients patients;
-	struct doctors doctors;
+	struct PatientsData patients;
+	struct Doctor doctors[10];
 };
 
 G_DEFINE_TYPE(
@@ -23,13 +24,11 @@ G_DEFINE_TYPE(
 )
 
 static void clinic_management_system_application_init(ClinicManagementSystemApplication *self) {
-	if (patients_read(&self->patients, PATIENTS_FILE_NAME) == patients_read_failure) {
-		g_warning("Failed to read patients file\n");
-	}
+	self->patients = getPatients();
 
-	if (doctors_read(&self->doctors, DOCTORS_FILE_NAME) == doctors_read_failure) {
-		g_warning("Failed to read doctors file\n");
-	}
+	memset(self->doctors, 0, sizeof(self->doctors));
+	struct TempStruct temp = getDoctors("doctors.csv");
+	memcpy(self->doctors, temp.arrayToReturn, sizeof(temp.arrayToReturn));
 }
 
 static void remove_style_provider(gpointer data) {
@@ -82,20 +81,9 @@ static void clinic_management_system_application_activate(GApplication *applicat
 	g_object_unref(builder);
 }
 
-static void clinic_management_system_application_shutdown(GApplication *self) {
-	ClinicManagementSystemApplication *application = CLINIC_MANAGEMENT_SYSTEM_APPLICATION(self);
-
-	if (patients_write(&application->patients, PATIENTS_FILE_NAME) == patients_write_failure) {
-		g_warning("Failed to write patients file\n");
-	}
-
-	G_APPLICATION_CLASS(clinic_management_system_application_parent_class)->shutdown(self);
-}
-
 static void clinic_management_system_application_class_init(ClinicManagementSystemApplicationClass
 																*class) {
 	G_APPLICATION_CLASS(class)->activate = clinic_management_system_application_activate;
-	G_APPLICATION_CLASS(class)->shutdown = clinic_management_system_application_shutdown;
 }
 
 ClinicManagementSystemApplication *clinic_management_system_application_new(void) {
@@ -109,14 +97,14 @@ ClinicManagementSystemApplication *clinic_management_system_application_new(void
 	);
 }
 
-struct patients *clinic_management_system_application_get_patients(
+struct PatientsData *clinic_management_system_application_get_patients(
 	ClinicManagementSystemApplication *self
 ) {
 	return &self->patients;
 }
 
-struct doctors *clinic_management_system_application_get_doctors(
+struct Doctor *clinic_management_system_application_get_doctors(
 	ClinicManagementSystemApplication *self
 ) {
-	return &self->doctors;
+	return self->doctors;
 }

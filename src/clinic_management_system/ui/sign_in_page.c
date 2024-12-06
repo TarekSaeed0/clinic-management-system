@@ -79,15 +79,15 @@ G_MODULE_EXPORT void sign_in_confirm_button_callback(GtkWidget *widget, gpointer
 	ClinicManagementSystemApplication *application =
 		CLINIC_MANAGEMENT_SYSTEM_APPLICATION(g_application_get_default());
 
-	struct patients *patients = clinic_management_system_application_get_patients(application);
-	switch (patients_sign_in(patients, username, password)) {
-		case patients_sign_in_success: {
+	struct PatientsData *patients = clinic_management_system_application_get_patients(application);
+	switch (logIn(*patients, username, password)) {
+		case foundAccount: {
 			gtk_widget_set_visible(GTK_WIDGET(page->error_label), false);
 			gtk_widget_set_visible(GTK_WIDGET(page->success_label), true);
 
 			g_timeout_add(1500, (GSourceFunc)sign_in_success_callback, page);
 		} break;
-		case patients_sign_in_failure_user_does_not_exist: {
+		case noAccount: {
 			gtk_widget_set_visible(GTK_WIDGET(page->error_label), true);
 			gtk_label_set_text(
 				GTK_LABEL(page->error_label),
@@ -96,7 +96,7 @@ G_MODULE_EXPORT void sign_in_confirm_button_callback(GtkWidget *widget, gpointer
 
 			g_timeout_add(3000, (GSourceFunc)sign_in_failure_user_does_not_exit_callback, page);
 		} break;
-		case patients_sign_in_failure_password_is_incorrect: {
+		case noPassword: {
 			gtk_widget_set_visible(GTK_WIDGET(page->error_label), true);
 			gtk_label_set_text(GTK_LABEL(page->error_label), "The password is incorrect.");
 		} break;

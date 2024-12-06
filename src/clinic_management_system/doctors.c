@@ -1,63 +1,80 @@
 #include <clinic_management_system/doctors.h>
 
-#include <assert.h>
 #include <ctype.h>
-#include <stdbool.h>
 #include <stdio.h>
 #include <string.h>
 
-#define STRINGIFY_(x) #x
-#define STRINGIFY(x) STRINGIFY_ x
+int checkFileExistence(const char filePath[]) {
+	FILE *fptr = fopen(filePath, "r");
 
-enum doctors_read_status doctors_read(struct doctors *doctors, const char *file_name) {
-	assert(doctors != NULL && file_name != NULL);
-
-	FILE *file = fopen(file_name, "r");
-	if (file == NULL) {
-		doctors->count = 0;
-		return doctors_read_success;
+	if (fptr == NULL) {
+		printf("The database doesn't exist");
+		return 1;
+	} else {
+		printf("The database exists\n");
+		fclose(fptr);
+		return 0;
 	}
+}
 
-	doctors->count = 0;
-	while (fscanf(
-			   file,
-			   "%" STRINGIFY(MAXIMUM_DOCTOR_NAME_SIZE
-			   ) "[^,],%" STRINGIFY(MAXIMUM_DOCTOR_SPECIALITY_SIZE
-			   ) "[^,],%" STRINGIFY(MAXIMUM_DOCTOR_CLINIC_ADDRESS_SIZE
-			   ) "[^,],%" STRINGIFY(MAXIMUM_DOCTOR_VISITA_SIZE) "[^,\n] ",
-			   doctors->data[doctors->count].name,
-			   doctors->data[doctors->count].speciality,
-			   doctors->data[doctors->count].clinic_address,
-			   doctors->data[doctors->count].visita
-		   ) == 4) {
-		if (++doctors->count == MAXIMUM_DOCTORS_COUNT) {
+struct TempStruct getDoctors(const char filePath[]) {
+
+	FILE *fptr = fopen(filePath, "r");
+
+	struct Doctor doctorArray[10];
+
+	char *tempptr;
+	char buffer[1024];
+	int field;
+	for (int row = 0; fgets(buffer, 1024, fptr); row++) {
+		field = 0;
+		tempptr = strtok(buffer, "|");
+		while (tempptr != NULL) {
+			switch (field) {
+				case 0: strcpy(doctorArray[row].name, tempptr); break;
+				case 1: strcpy(doctorArray[row].speciality, tempptr); break;
+				case 2: strcpy(doctorArray[row].address, tempptr); break;
+				case 3: strcpy(doctorArray[row].visita, tempptr); break;
+			}
+			tempptr = strtok(NULL, "|");
+			field++;
+		}
+	}
+	struct TempStruct temporary;
+	memcpy(temporary.arrayToReturn, doctorArray, 10 * sizeof(doctorArray[0]));
+	fclose(fptr);
+	return temporary;
+}
+
+struct TempStruct1 searchBySpeciality(
+	const char specialityOfDoctor[],
+	struct Doctor arrayOfDoctors[10]
+) {
+	struct Doctor listingArray[10];
+	int is_somehow_similar = 0;
+
+	for (size_t k = 0; k < 10; k++) {
+		for (size_t i = 0; arrayOfDoctors[k].speciality[i] != '\0'; i++) {
+
+			for (size_t j = 0; j < strlen(specialityOfDoctor); j++) {
+				if (tolower(arrayOfDoctors[k].speciality[i + j]) ==
+					tolower(specialityOfDoctor[j])) {
+					if (j == (strlen(specialityOfDoctor) - 1)) {
+						listingArray[is_somehow_similar] = arrayOfDoctors[k];
+						is_somehow_similar++;
+						break;
+					}
+					continue;
+				} else {
+					break;
+				}
+			}
 			break;
 		}
 	}
 
-	(void)fclose(file);
-
-	return doctors_read_success;
-}
-struct doctors doctors_search(const struct doctors *doctors, const char *speciality) {
-	assert(doctors != NULL && speciality != NULL);
-
-	struct doctors results;
-	results.count = 0;
-
-	for (size_t i = 0; i < doctors->count; i++) {
-		bool matches = true;
-		for (size_t j = 0; speciality[j] != '\0'; j++) {
-			if (tolower(speciality[j]) != tolower(doctors->data[i].speciality[j])) {
-				matches = false;
-				break;
-			}
-		}
-
-		if (matches) {
-			results.data[results.count++] = doctors->data[i];
-		}
-	}
-
-	return results;
+	struct TempStruct1 temporary;
+	memcpy(temporary.arrayToReturn, listingArray, 10 * sizeof(listingArray[0]));
+	temporary.count = is_somehow_similar;
+	return temporary;
 }

@@ -10,12 +10,16 @@ G_BEGIN_DECLS
 G_DECLARE_FINAL_TYPE(DoctorsListItem, doctors_list_item, DOCTORS, LIST_ITEM, GtkBox)
 
 DoctorsListItem *doctors_list_item_new(void);
-void doctors_list_item_set_data(DoctorsListItem *self, struct doctor doctor);
+void doctors_list_item_set_data(DoctorsListItem *self, struct Doctor doctor);
 
 #define DOCTORS_LIST_TYPE doctors_list_get_type()
 G_DECLARE_FINAL_TYPE(DoctorsList, doctors_list, DOCTORS, LIST, GtkBox)
 
-void doctors_list_set_doctors(DoctorsList *self, const struct doctors *doctors);
+void doctors_list_set_doctors(
+	DoctorsList *self,
+	const struct Doctor doctors[static 10],
+	size_t count
+);
 
 G_END_DECLS
 

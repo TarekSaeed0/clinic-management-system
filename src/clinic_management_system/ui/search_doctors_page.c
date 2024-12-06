@@ -36,13 +36,6 @@ static void search_doctors_page_class_init(SearchDoctorsPageClass *class) {
 
 static void search_doctors_page_init(SearchDoctorsPage *self) {
 	gtk_widget_init_template(GTK_WIDGET(self));
-
-	struct doctors doctors;
-	if (doctors_read(&doctors, DOCTORS_FILE_NAME) == doctors_read_failure) {
-		g_warning("Failed to read doctors file\n");
-	}
-
-	doctors_list_set_doctors(self->doctors_list, &doctors);
 }
 
 G_MODULE_EXPORT void search_doctors_search_entry_callback(GtkWidget *widget, gpointer data) {
@@ -56,10 +49,10 @@ G_MODULE_EXPORT void search_doctors_search_entry_callback(GtkWidget *widget, gpo
 	ClinicManagementSystemApplication *application =
 		CLINIC_MANAGEMENT_SYSTEM_APPLICATION(g_application_get_default());
 
-	struct doctors *doctors = clinic_management_system_application_get_doctors(application);
+	struct Doctor *doctors = clinic_management_system_application_get_doctors(application);
 
-	struct doctors results = doctors_search(doctors, speciality);
-	doctors_list_set_doctors(page->doctors_list, &results);
+	struct TempStruct1 results = searchBySpeciality(speciality, doctors);
+	doctors_list_set_doctors(page->doctors_list, results.arrayToReturn, (size_t)results.count);
 }
 
 G_MODULE_EXPORT void search_doctors_back_button_callback(GtkWidget *widget, gpointer data) {

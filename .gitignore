@@ -72,3 +72,5 @@ CMakeUserPresets.json
 .cache
 build
 windows-build
+patients.csv
+doctors.csv
