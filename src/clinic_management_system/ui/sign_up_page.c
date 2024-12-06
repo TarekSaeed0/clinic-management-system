@@ -1,4 +1,3 @@
-#include "clinic_management_system/patients.h"
 #include <clinic_management_system/ui/sign_up_page.h>
 
 #include <clinic_management_system/application.h>
@@ -49,14 +48,17 @@ static gboolean sign_up_success_callback(gpointer data) {
 
 	gtk_stack_set_visible_child_name(GTK_STACK(stack), "start-page");
 
+	// clear the sign up entries
 	gtk_editable_delete_text(GTK_EDITABLE(page->username_entry), 0, -1);
 	gtk_editable_delete_text(GTK_EDITABLE(page->name_entry), 0, -1);
 	gtk_editable_delete_text(GTK_EDITABLE(page->password_entry), 0, -1);
 	gtk_editable_delete_text(GTK_EDITABLE(page->confirm_password_entry), 0, -1);
 
+	// hide any success or error messages
 	gtk_widget_set_visible(GTK_WIDGET(page->success_label), false);
 	gtk_widget_set_visible(GTK_WIDGET(page->error_label), false);
 
+	// remove the timeout, so the function is only called once
 	return G_SOURCE_REMOVE;
 }
 
@@ -65,23 +67,29 @@ G_MODULE_EXPORT void sign_up_confirm_button_callback(GtkWidget *widget, gpointer
 
 	SignUpPage *page = SIGN_UP_PAGE(gtk_widget_get_ancestor(widget, SIGN_UP_PAGE_TYPE));
 
+	// get the text in the entries
 	const char *username = gtk_editable_get_text(GTK_EDITABLE(page->username_entry));
 	const char *name = gtk_editable_get_text(GTK_EDITABLE(page->name_entry));
 	const char *password = gtk_editable_get_text(GTK_EDITABLE(page->password_entry));
 	const char *confirm_password =
 		gtk_editable_get_text(GTK_EDITABLE(page->confirm_password_entry));
 
+	// get patients data
 	ClinicManagementSystemApplication *application =
 		CLINIC_MANAGEMENT_SYSTEM_APPLICATION(g_application_get_default());
-
 	struct PatientsData *patients = clinic_management_system_application_get_patients(application);
+
+	// try to sign up and handle any errors
 	switch (sign_up(patients, name, username, password, confirm_password)) {
 		case signed_up_successfuly: {
 			gtk_widget_set_visible(GTK_WIDGET(page->error_label), false);
 			gtk_widget_set_visible(GTK_WIDGET(page->success_label), true);
 
+			// show a success message and go back to the start page after a bit of time, so the user
+			// can see the message
 			g_timeout_add(1500, (GSourceFunc)sign_up_success_callback, page);
 		} break;
+		// show error message according to the return value
 		case short_username: {
 			gtk_widget_set_visible(GTK_WIDGET(page->error_label), true);
 			gtk_label_set_text(
@@ -145,16 +153,19 @@ G_MODULE_EXPORT void sign_up_confirm_button_callback(GtkWidget *widget, gpointer
 G_MODULE_EXPORT void sign_up_back_button_callback(GtkWidget *widget, gpointer data) {
 	(void)widget, (void)data;
 
+	// go back to the start page
 	GtkStack *stack = GTK_STACK(gtk_widget_get_ancestor(widget, GTK_TYPE_STACK));
-	SignUpPage *page = SIGN_UP_PAGE(gtk_widget_get_ancestor(widget, SIGN_UP_PAGE_TYPE));
-
 	gtk_stack_set_visible_child_name(stack, "start-page");
 
+	SignUpPage *page = SIGN_UP_PAGE(gtk_widget_get_ancestor(widget, SIGN_UP_PAGE_TYPE));
+
+	// clear the sign up entries
 	gtk_editable_delete_text(GTK_EDITABLE(page->username_entry), 0, -1);
 	gtk_editable_delete_text(GTK_EDITABLE(page->name_entry), 0, -1);
 	gtk_editable_delete_text(GTK_EDITABLE(page->password_entry), 0, -1);
 	gtk_editable_delete_text(GTK_EDITABLE(page->confirm_password_entry), 0, -1);
 
+	// hide any success or error messages
 	gtk_widget_set_visible(GTK_WIDGET(page->success_label), false);
 	gtk_widget_set_visible(GTK_WIDGET(page->error_label), false);
 }

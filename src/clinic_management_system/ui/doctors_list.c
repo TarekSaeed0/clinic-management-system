@@ -1,8 +1,5 @@
 #include <clinic_management_system/ui/doctors_list.h>
 
-#include <gio/gio.h>
-#include <gtk/gtk.h>
-
 struct _DoctorsListItem {
 	GtkBox parent;
 	GtkLabel *name_label;
@@ -49,6 +46,8 @@ void doctors_list_item_set_data(DoctorsListItem *self, struct Doctor doctor) {
 	gtk_label_set_text(self->clinic_address_label, doctor.address);
 	gtk_label_set_text(self->visita_label, doctor.visita);
 }
+
+// this type is needed because ListStore items must be a GObject
 
 typedef struct _Doctor {
 	GObject parent_instance;

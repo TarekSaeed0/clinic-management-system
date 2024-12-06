@@ -1,6 +1,4 @@
 #include <clinic_management_system/ui/main_page.h>
-#include <gio/gio.h>
-#include <gtk/gtk.h>
 
 struct _MainPage {
 	GtkBox parent;
@@ -32,23 +30,23 @@ static void main_page_init(MainPage *self) {
 G_MODULE_EXPORT void list_doctors_button_callback(GtkWidget *widget, gpointer data) {
 	(void)widget, (void)data;
 
+	// go to the list doctors page
 	GtkStack *stack = GTK_STACK(gtk_widget_get_ancestor(widget, GTK_TYPE_STACK));
-
 	gtk_stack_set_visible_child_name(stack, "list-doctors-page");
 }
 
 G_MODULE_EXPORT void search_doctors_button_callback(GtkWidget *widget, gpointer data) {
 	(void)widget, (void)data;
 
+	// go to the search doctors page
 	GtkStack *stack = GTK_STACK(gtk_widget_get_ancestor(widget, GTK_TYPE_STACK));
-
 	gtk_stack_set_visible_child_name(stack, "search-doctors-page");
 }
 
 G_MODULE_EXPORT void sign_out_button_callback(GtkWidget *widget, gpointer data) {
 	(void)widget, (void)data;
 
+	// sign out and go back to the start page
 	GtkStack *stack = GTK_STACK(gtk_widget_get_ancestor(widget, GTK_TYPE_STACK));
-
 	gtk_stack_set_visible_child_name(stack, "start-page");
 }

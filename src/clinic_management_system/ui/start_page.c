@@ -1,6 +1,4 @@
 #include <clinic_management_system/ui/start_page.h>
-#include <gio/gio.h>
-#include <gtk/gtk.h>
 
 struct _StartPage {
 	GtkBox parent;
@@ -32,23 +30,23 @@ static void start_page_init(StartPage *self) {
 G_MODULE_EXPORT void sign_up_button_callback(GtkWidget *widget, gpointer data) {
 	(void)widget, (void)data;
 
+	// go to the sign up page
 	GtkStack *stack = GTK_STACK(gtk_widget_get_ancestor(widget, GTK_TYPE_STACK));
-
 	gtk_stack_set_visible_child_name(stack, "sign-up-page");
 }
 
 G_MODULE_EXPORT void sign_in_button_callback(GtkWidget *widget, gpointer data) {
 	(void)widget, (void)data;
 
+	// go to the sign in page
 	GtkStack *stack = GTK_STACK(gtk_widget_get_ancestor(widget, GTK_TYPE_STACK));
-
 	gtk_stack_set_visible_child_name(stack, "sign-in-page");
 }
 
 G_MODULE_EXPORT void quit_button_callback(GtkWidget *widget, gpointer data) {
 	(void)widget, (void)data;
 
+	// close the program
 	GApplication *application = g_application_get_default();
-
 	g_application_quit(application);
 }

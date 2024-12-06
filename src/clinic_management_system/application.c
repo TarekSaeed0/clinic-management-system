@@ -24,8 +24,10 @@ G_DEFINE_TYPE(
 )
 
 static void clinic_management_system_application_init(ClinicManagementSystemApplication *self) {
+	// read patients data
 	self->patients = getPatients();
 
+	// read doctors data
 	memset(self->doctors, 0, sizeof(self->doctors));
 	struct TempStruct temp = getDoctors("doctors.csv");
 	memcpy(self->doctors, temp.arrayToReturn, sizeof(temp.arrayToReturn));
@@ -37,6 +39,7 @@ static void remove_style_provider(gpointer data) {
 }
 
 static void clinic_management_system_application_activate(GApplication *application) {
+	// make sure these types are registered before we instantiate widgets
 	g_type_ensure(START_PAGE_TYPE);
 	g_type_ensure(SIGN_UP_PAGE_TYPE);
 	g_type_ensure(SIGN_IN_PAGE_TYPE);
@@ -46,6 +49,7 @@ static void clinic_management_system_application_activate(GApplication *applicat
 	g_type_ensure(LIST_DOCTORS_PAGE_TYPE);
 	g_type_ensure(SEARCH_DOCTORS_PAGE_TYPE);
 
+	// read .ui files and instatiate widgets
 	GtkBuilder *builder = gtk_builder_new_from_resource(
 		"/com/github/TarekSaeed0/clinic_management_system/ui/window.ui"
 	);
@@ -53,6 +57,7 @@ static void clinic_management_system_application_activate(GApplication *applicat
 	GtkWindow *window = GTK_WINDOW(gtk_builder_get_object(builder, "window"));
 	gtk_window_set_application(window, GTK_APPLICATION(application));
 
+	// add styling
 	GtkCssProvider *provider = gtk_css_provider_new();
 	gtk_css_provider_load_from_resource(
 		provider,
@@ -70,6 +75,7 @@ static void clinic_management_system_application_activate(GApplication *applicat
 		remove_style_provider
 	);
 
+	// add custom icons to icon theme
 	GtkIconTheme *icon_theme = gtk_icon_theme_get_for_display(gdk_display_get_default());
 	gtk_icon_theme_add_resource_path(
 		icon_theme,

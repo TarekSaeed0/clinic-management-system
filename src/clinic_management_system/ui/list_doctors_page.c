@@ -3,8 +3,6 @@
 #include <clinic_management_system/application.h>
 #include <clinic_management_system/doctors.h>
 #include <clinic_management_system/ui/doctors_list.h>
-#include <gio/gio.h>
-#include <gtk/gtk.h>
 
 struct _ListDoctorsPage {
 	GtkBox parent;
@@ -35,17 +33,18 @@ static void list_doctors_page_class_init(ListDoctorsPageClass *class) {
 static void list_doctors_page_init(ListDoctorsPage *self) {
 	gtk_widget_init_template(GTK_WIDGET(self));
 
+	// get doctors data
 	ClinicManagementSystemApplication *application =
 		CLINIC_MANAGEMENT_SYSTEM_APPLICATION(g_application_get_default());
-
 	struct Doctor *doctors = clinic_management_system_application_get_doctors(application);
 
+	// initialize doctors list
 	doctors_list_set_doctors(self->doctors_list, doctors, 10);
 }
 G_MODULE_EXPORT void list_doctors_back_button_callback(GtkWidget *widget, gpointer data) {
 	(void)widget, (void)data;
 
+	// go back to main page
 	GtkStack *stack = GTK_STACK(gtk_widget_get_ancestor(widget, GTK_TYPE_STACK));
-
 	gtk_stack_set_visible_child_name(stack, "main-page");
 }
