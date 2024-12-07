@@ -17,7 +17,7 @@ int checkFileExistence(const char filePath[]) {
 	}
 }
 
-struct TempStruct getDoctors(const char filePath[]) {
+struct Doctors getDoctors(const char filePath[]) {
 
 	FILE *fptr = fopen(filePath, "r");
 
@@ -40,13 +40,13 @@ struct TempStruct getDoctors(const char filePath[]) {
 			field++;
 		}
 	}
-	struct TempStruct temporary;
+	struct Doctors temporary;
 	memcpy(temporary.arrayToReturn, doctorArray, 10 * sizeof(doctorArray[0]));
 	fclose(fptr);
 	return temporary;
 }
 
-struct TempStruct1 searchBySpeciality(
+struct SearchResults searchBySpeciality(
 	const char specialityOfDoctor[],
 	struct Doctor arrayOfDoctors[10]
 ) {
@@ -73,7 +73,7 @@ struct TempStruct1 searchBySpeciality(
 		}
 	}
 
-	struct TempStruct1 temporary;
+	struct SearchResults temporary;
 	memcpy(temporary.arrayToReturn, listingArray, 10 * sizeof(listingArray[0]));
 	temporary.count = is_somehow_similar;
 	return temporary;

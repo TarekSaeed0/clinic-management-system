@@ -29,7 +29,7 @@ static void clinic_management_system_application_init(ClinicManagementSystemAppl
 
 	// read doctors data
 	memset(self->doctors, 0, sizeof(self->doctors));
-	struct TempStruct temp = getDoctors("doctors.csv");
+	struct Doctors temp = getDoctors("doctors.csv");
 	memcpy(self->doctors, temp.arrayToReturn, sizeof(temp.arrayToReturn));
 }
 

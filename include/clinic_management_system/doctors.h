@@ -10,21 +10,21 @@ struct Doctor {
 };
 
 // this struct is very useful for getting an array as an output
-struct TempStruct {
+struct Doctors {
 	struct Doctor arrayToReturn[10];
 };
 
 // the required functions
 int checkFileExistence(const char filePath[]);
 
-struct TempStruct getDoctors(const char filePath[]);
+struct Doctors getDoctors(const char filePath[]);
 
-struct TempStruct1 {
+struct SearchResults {
 	struct Doctor arrayToReturn[10];
 	int count;
 };
 
-struct TempStruct1 searchBySpeciality(
+struct SearchResults searchBySpeciality(
 	const char specialityOfDoctor[],
 	struct Doctor arrayOfDoctors[10]
 );
