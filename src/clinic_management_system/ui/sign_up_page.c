@@ -108,7 +108,7 @@ G_MODULE_EXPORT void sign_up_confirm_button_callback(GtkWidget *widget, gpointer
 			gtk_widget_set_visible(GTK_WIDGET(page->error_label), true);
 			gtk_label_set_text(
 				GTK_LABEL(page->error_label),
-				"Username is invalid, username must not contain whitespace."
+				"Username is invalid, username must not contain whitespace or commas."
 			);
 		} break;
 		case existed_username: {
@@ -137,7 +137,8 @@ G_MODULE_EXPORT void sign_up_confirm_button_callback(GtkWidget *widget, gpointer
 			gtk_widget_set_visible(GTK_WIDGET(page->error_label), true);
 			gtk_label_set_text(
 				GTK_LABEL(page->error_label),
-				"Password is invalid, password must be at least four characters long."
+				"Password is invalid, password must be at least four characters long, and not "
+				"contain commas."
 			);
 		} break;
 		case Passwords_didnot_match: {

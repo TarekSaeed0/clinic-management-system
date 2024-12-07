@@ -86,7 +86,8 @@ enum check_Account sign_up(
 	}
 
 	for (int i = 0; i < (int)strlen(taken_username); i++) {
-		if ((taken_username[i] == ' ' || taken_username[i] == '\t' || taken_username[i] == '\n')) {
+		if ((taken_username[i] == ' ' || taken_username[i] == '\t' || taken_username[i] == '\n' ||
+			 taken_username[i] == ',')) {
 			return invalid_username;
 		}
 	}
@@ -110,12 +111,18 @@ enum check_Account sign_up(
 			return invalid_name;
 		}
 	}
-	if (count <= 4) {
+	if (count < 4) {
 		return invalid_name;
 	}
 
 	if (strlen(taken_password) < 4) {
 		return invalid_password;
+	}
+
+	for (int i = 0; i < (int)strlen(taken_password); i++) {
+		if ((taken_password[i] == ',')) {
+			return invalid_password;
+		}
 	}
 
 	if (strcmp(taken_password, taken_confirm_password) != 0) {
