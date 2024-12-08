@@ -53,6 +53,18 @@ if(INKSCAPE AND MAGICK)
 		MAIN_DEPENDENCY
 			data/clinic_management_system/icons/hicolor/scalable/apps/com.github.TarekSaeed0.clinic_management_system.svg
 	)
+else()
+	add_custom_command(
+		OUTPUT
+			${CMAKE_CURRENT_BINARY_DIR}/com.github.TarekSaeed0.clinic_management_system.icons.generated
+		WORKING_DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR}
+		COMMAND
+			${CMAKE_COMMAND} -E touch
+			${CMAKE_CURRENT_BINARY_DIR}/com.github.TarekSaeed0.clinic_management_system.icons.generated
+		VERBATIM
+		MAIN_DEPENDENCY
+			data/clinic_management_system/icons/hicolor/scalable/apps/com.github.TarekSaeed0.clinic_management_system.svg
+	)
 endif()
 
 find_program(GLIB_COMPILE_RESOURCES NAMES glib-compile-resources REQUIRED)
